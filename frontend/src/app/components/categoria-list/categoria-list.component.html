@@ -1,0 +1,41 @@
+<div class="pt-20 px-4">
+    <div class="flex flex-col gap-4 md:flex-row md:flex-wrap md:justify-center md:items-start">
+        <div class="bg-white rounded-xl shadow-md p-4
+                    flex items-center gap-4
+                    md:max-w-xs md:flex-col md:text-center md:gap-2" [routerLink]="['/produtos']"
+            [queryParams]="{ categoria: 'processador' }">
+            <img src="/processador.jpg" alt="Processador" class="w-24 h-24 object-contain rounded-lg md:w-64 md:h-32" />
+            <div class="flex-1 md:flex-none">
+                <h3 class="text-lg font-semibold text-gray-800">Processador</h3>
+            </div>
+        </div>
+        <div class="bg-white rounded-xl shadow-md p-4
+                    flex items-center gap-4
+                    md:max-w-xs md:flex-col md:text-center md:gap-2" [routerLink]="['/produtos']"
+            [queryParams]="{ categoria: 'placaVideo' }">
+            <img src="/placa_video.jpg" alt="Placa de vídeo"
+                class="w-24 h-24 object-contain rounded-lg md:w-64 md:h-32" />
+            <div class="flex-1 md:flex-none">
+                <h3 class="text-lg font-semibold text-gray-800">Placa de vídeo</h3>
+            </div>
+        </div>
+        <div class="bg-white rounded-xl shadow-md p-4
+                    flex items-center gap-4
+                    md:max-w-xs md:flex-col md:text-center md:gap-2" [routerLink]="['/produtos']"
+            [queryParams]="{ categoria: 'monitor' }">
+            <img src="/monitor.jpg" alt="Monitor" class="w-24 h-24 object-contain rounded-lg md:w-64 md:h-32" />
+            <div class="flex-1 md:flex-none">
+                <h3 class="text-lg font-semibold text-gray-800">Monitor</h3>
+            </div>
+        </div>
+        <div class="bg-white rounded-xl shadow-md p-4
+                    flex items-center gap-4
+                    md:max-w-xs md:flex-col md:text-center md:gap-2" [routerLink]="['/produtos']"
+            [queryParams]="{ categoria: 'teclado' }">
+            <img src="/teclado.jpg" alt="Teclado" class="w-24 h-24 object-contain rounded-lg md:w-64 md:h-32" />
+            <div class="flex-1 md:flex-none">
+                <h3 class="text-lg font-semibold text-gray-800">Teclado</h3>
+            </div>
+        </div>
+    </div>
+</div>

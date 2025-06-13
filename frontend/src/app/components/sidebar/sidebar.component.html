@@ -1,0 +1,23 @@
+<header class="bg-[#002A76] flex items-center justify-between px-4 py-3 shadow-md fixed top-0 w-full z-50">
+    <button class="text-white text-3xl" (click)="toggleMenu()" aria-label="Abrir menu">
+        <span class="material-symbols-outlined">menu</span>
+    </button><img src="/ZoppyLogo.png" alt="Logo Zoppy" class="h-8 w-auto" />
+</header>
+<div class="fixed top-0 left-0 h-full w-64 bg-white shadow-lg transform transition-transform duration-300 z-40"
+    [ngClass]="{ 'translate-x-0': menuAberto, '-translate-x-full': !menuAberto }">
+    <div class="flex justify-between items-center px-4 py-3 border-b">
+        <h2 class="font-bold text-lg">Menu</h2>
+        <button (click)="toggleMenu()" class="text-gray-600 text-2xl">
+            <span class="material-symbols-outlined">close</span>
+        </button>
+    </div>
+    <nav class="px-4 py-2">
+        <a routerLink="/categorias" (click)="toggleMenu()"
+            class="block py-2 text-gray-800 hover:bg-gray-100 rounded">Categorias</a>
+        <a routerLink="/produtos" (click)="toggleMenu()"
+            class="block py-2 text-gray-800 hover:bg-gray-100 rounded">Listagem de Produtos</a>
+
+    </nav>
+</div>
+<div class="fixed inset-0 bg-black/50 bg-opacity-50 z-30 transition-opacity duration-300" *ngIf="menuAberto"
+    (click)="toggleMenu()"></div>

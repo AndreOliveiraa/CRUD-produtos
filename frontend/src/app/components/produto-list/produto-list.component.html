@@ -1,0 +1,146 @@
+<div class="pt-20 px-4">
+
+    <div class="flex flex-col gap-4 md:flex-row md:flex-wrap md:justify-center md:items-start">
+        <div *ngFor="let produto of produtos" class="bg-white rounded-xl shadow-md p-4
+                flex items-center gap-4
+                md:max-w-xs md:flex-col md:text-center md:gap-2"> <img *ngIf="produto.imagemUrl"
+                [src]="'http://localhost:3000/uploads/' + produto.imagemUrl" alt="{{ produto.nome }}"
+                class="w-24 h-24 object-contain rounded-lg md:w-64 md:h-32" />
+
+            <div class="flex-1 md:flex-none">
+                <h3 class="text-lg font-semibold text-gray-800">{{ produto.nome }}</h3>
+                <p class="text-gray-500 text-sm">{{ produto.descricao }}</p>
+                <p class="text-xl font-bold text-green-600 mt-2">R$ {{ produto.preco }}</p>
+            </div>
+
+            <div class="flex items-center gap-2 md:mt-2"> <button
+                    class="bg-white border-2 border-blue-500 text-blue-500 hover:bg-blue-100 p-1 rounded-lg flex items-center justify-center"
+                    (click)="abrirModal(produto)" title="Editar">
+                    <span class="material-symbols-outlined">edit</span>
+                </button>
+                <button
+                    class="bg-white border-2 border-red-500 text-red-500 hover:bg-red-100 p-1 rounded-lg flex items-center justify-center"
+                    (click)="excluirProduto(produto.id)" title="Excluir">
+                    <span class="material-symbols-outlined">delete</span>
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="flex justify-center mt-6">
+    <button class="bg-[#002A76] text-white px-6 py-3 rounded-xl shadow-md hover:bg-blue-900 transition"
+        (click)="abrirModalCriar()">
+        Adicionar produto
+    </button>
+</div>
+
+<!-- Modal de Criação -->
+<div *ngIf="modalAberto" class="fixed inset-0 bg-black/50 bg-opacity-50 flex items-center justify-center z-50">
+    <form (submit)="criarProduto()" enctype="multipart/form-data"
+        class="bg-white p-6 rounded-xl shadow-lg w-full max-w-md space-y-4">
+        <h2 class="text-xl font-bold text-gray-800">Novo Produto</h2>
+
+        <label class="block">
+            <span class="text-gray-700">Nome:</span>
+            <input class="w-full border border-gray-300 p-2 rounded mt-1" [(ngModel)]="novoProduto.nome" name="nome"
+                required />
+        </label>
+
+        <label class="block">
+            <span class="text-gray-700">Preço:</span>
+            <input class="w-full border border-gray-300 p-2 rounded mt-1" type="number" [(ngModel)]="novoProduto.preco"
+                name="preco" required />
+        </label>
+
+        <label class="block">
+            <span class="text-gray-700">Categoria:</span>
+            <select class="w-full border border-gray-300 p-2 rounded mt-1" [(ngModel)]="novoProduto.categoria"
+                name="categoria" required>
+                <option value="processador">
+                    Processador
+                </option>
+                <option value="placaVideo">
+                    Placa de vídeo
+                </option>
+                <option value="monitor">
+                    Monitor
+                </option>
+                <option value="teclado">
+                    Teclado
+                </option>
+            </select>
+        </label>
+
+        <label class="block">
+            <span class="text-gray-700">Descrição:</span>
+            <input class="w-full border border-gray-300 p-2 rounded mt-1" [(ngModel)]="novoProduto.descricao"
+                name="descricao" required />
+        </label>
+
+        <label class="block">
+            <span class="text-gray-700">Imagem:</span>
+            <input type="file" class="mt-1" (change)="onFileSelected($event)" />
+        </label>
+
+        <div class="flex justify-end gap-2 mt-4">
+            <button type="button" class="px-4 py-2 bg-gray-300 rounded" (click)="fecharModalCriar()">Cancelar</button>
+            <button type="submit" class="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700">Salvar</button>
+        </div>
+    </form>
+</div>
+
+<!-- Modal de Edição -->
+<div *ngIf="produtoEditando" class="fixed inset-0 bg-black/50 bg-opacity-50 flex items-center justify-center z-50">
+    <div class="bg-white p-6 rounded-xl shadow w-full max-w-md relative">
+        <h2 class="text-xl font-bold mb-4 text-gray-800">Editar Produto</h2>
+
+        <label class="block mb-2">
+            <span class="text-gray-700">Nome:</span>
+            <input class="w-full border border-gray-300 p-2 rounded mt-1" [(ngModel)]="produtoEditando.nome" />
+        </label>
+
+        <label class="block mb-2">
+            <span class="text-gray-700">Preço:</span>
+            <input class="w-full border border-gray-300 p-2 rounded mt-1" type="number"
+                [(ngModel)]="produtoEditando.preco" />
+        </label>
+
+        <label class="block mb-4">
+            <span class="text-gray-700">Descrição:</span>
+            <textarea class="w-full border border-gray-300 p-2 rounded mt-1"
+                [(ngModel)]="produtoEditando.descricao"></textarea>
+        </label>
+
+        <div class="flex justify-end gap-2">
+            <button class="px-4 py-2 bg-gray-300 rounded" (click)="fecharModal()">Cancelar</button>
+            <button class="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700"
+                (click)="salvarEdicao()">Salvar</button>
+        </div>
+    </div>
+</div>
+
+<!-- Modal de Exclusão -->
+<div *ngIf="produtoExcluindo" class="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
+    <div class="bg-white p-6 rounded-xl shadow-lg w-full max-w-sm relative">
+        <h2 class="text-xl font-bold mb-4 text-gray-800">Confirmar Exclusão</h2>
+
+        <div class="mb-6 text-gray-700">
+            <p>Você realmente deseja excluir
+                <span class="font-semibold text-lg text-red-600">{{ produtoParaExcluir?.nome }}</span>?
+            </p>
+            <p class="mt-2 text-sm">Esta ação não pode ser desfeita.</p>
+        </div>
+
+        <div class="flex justify-end gap-3">
+            <button class="bg-gray-200 text-gray-800 px-4 py-2 rounded-lg hover:bg-gray-300 transition-colors"
+                (click)="fecharModalExclusao()">
+                Cancelar
+            </button>
+            <button class="bg-red-500 text-white px-4 py-2 rounded-lg hover:bg-red-600 transition-colors"
+                (click)="confirmarExclusao()">
+                Excluir
+            </button>
+        </div>
+    </div>
+</div>
